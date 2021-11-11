@@ -1,5 +1,7 @@
 import { Global, Module, NotFoundException } from '@nestjs/common'
 import { ConfigModule, ConfigService } from '@nestjs/config'
+import { GraphQLModule } from '@nestjs/graphql'
+import { join } from 'path'
 import { PrismaService } from './prisma.service'
 
 @Global()
@@ -8,6 +10,9 @@ import { PrismaService } from './prisma.service'
     ConfigModule.forRoot({
       envFilePath: ['.env.local', '.env'],
     }),
+    GraphQLModule.forRoot({
+      autoSchemaFile: join(process.cwd(), 'graphql/schema.gql'),
+    }),
   ],
   providers: [
     ConfigService,
@@ -15,10 +20,7 @@ import { PrismaService } from './prisma.service'
       provide: PrismaService,
       useFactory: () =>
         new PrismaService({
-          rejectOnNotFound: {
-            findUnique: () => new NotFoundException(),
-            findFirst: () => new NotFoundException(),
-          },
+          rejectOnNotFound: () => new NotFoundException(),
         }),
     },
   ],
