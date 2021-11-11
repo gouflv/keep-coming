@@ -3,6 +3,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config'
 import { GraphQLModule } from '@nestjs/graphql'
 import { join } from 'path'
 import { PrismaService } from './prisma.service'
+import { ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core'
 
 @Global()
 @Module({
@@ -12,6 +13,8 @@ import { PrismaService } from './prisma.service'
     }),
     GraphQLModule.forRoot({
       autoSchemaFile: join(process.cwd(), 'graphql/schema.gql'),
+      playground: false,
+      plugins: [ApolloServerPluginLandingPageLocalDefault()],
     }),
   ],
   providers: [
