@@ -1,6 +1,6 @@
 import { ParseIntPipe } from '@nestjs/common'
 import { Query, Args, Resolver } from '@nestjs/graphql'
-import { User } from './user.model'
+import { User } from './models/user.model'
 import { UserService } from './user.service'
 
 @Resolver(of => User)

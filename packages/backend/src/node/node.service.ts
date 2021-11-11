@@ -10,7 +10,7 @@ export class NodeService {
     return this.prisma.node.findUnique({ where })
   }
 
-  async findMany(where: Prisma.NodeWhereInput) {
+  async findMany(where?: Prisma.NodeWhereInput) {
     return this.prisma.node.findMany({
       where,
       orderBy: { sort: 'asc' },
