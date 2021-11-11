@@ -8,7 +8,7 @@ specifiers:
   '@nestjs/platform-express': ^8.0.0
   '@nestjs/schematics': ^8.0.0
   '@nestjs/testing': ^8.0.0
-  '@prisma/client': ^3.4.1
+  '@prisma/client': ^3.4.2
   '@types/express': ^4.17.13
   '@types/jest': ^27.0.1
   '@types/node': ^16.0.0
@@ -20,7 +20,7 @@ specifiers:
   eslint-plugin-prettier: ^4.0.0
   jest: ^27.2.5
   prettier: ^2.3.2
-  prisma: ^3.4.1
+  prisma: ^3.4.2
   reflect-metadata: ^0.1.13
   rimraf: ^3.0.2
   rxjs: ^7.2.0
@@ -37,8 +37,8 @@ dependencies:
   '@nestjs/config': 1.1.0_461b1fe9cbc46f5026314aa9aa33f557
   '@nestjs/core': 8.2.0_4cd843d44b7cc56d7dd061c958134502
   '@nestjs/platform-express': 8.2.0_3be9f4a5443d29d58a8c4813bc34ec98
-  '@prisma/client': 3.4.1_prisma@3.4.1
-  prisma: 3.4.1
+  '@prisma/client': 3.4.2_prisma@3.4.2
+  prisma: 3.4.2
   reflect-metadata: 0.1.13
   rimraf: 3.0.2
   rxjs: 7.4.0
@@ -897,8 +897,8 @@ packages:
       node-fetch: 2.6.6
     dev: false
 
-  /@prisma/client/3.4.1_prisma@3.4.1:
-    resolution: {integrity: sha512-tUlPSyGiZfmt9xTtvZK8d8cqu76QLCM+rFt7+ezpau/G0VwzetuGVmT28c61Eaw7OW2KmsTHRk8LUxI7HZS3kA==}
+  /@prisma/client/3.4.2_prisma@3.4.2:
+    resolution: {integrity: sha512-HyQGq9m1V99zpNSJ/FojZJnvzqWUd18ErIXwxLzSuurS23XlhHEPtxgpxJaegBmjsr/KCYqcXFOPmM1gRLpI0w==}
     engines: {node: '>=12.6'}
     requiresBuild: true
     peerDependencies:
@@ -908,7 +908,7 @@ packages:
         optional: true
     dependencies:
       '@prisma/engines-version': 3.4.1-2.57771c0558568c7d08bd34c7248af5244ae16bd9
-      prisma: 3.4.1
+      prisma: 3.4.2
     dev: false
 
   /@prisma/engines-version/3.4.1-2.57771c0558568c7d08bd34c7248af5244ae16bd9:
@@ -4164,8 +4164,8 @@ packages:
       react-is: 17.0.2
     dev: true
 
-  /prisma/3.4.1:
-    resolution: {integrity: sha512-APws/xRa1wYd064KV7hByQzWiBMUy/yQ501XXrsRZegXAQ/j1obG2HCk34MEbgn8IqLSRLaXyhCYz4R4HwRmMQ==}
+  /prisma/3.4.2:
+    resolution: {integrity: sha512-wOD1lni7MfH/Qkp5SAkUthLKG+pQcpD31Nm8nAKj9ESgqId/dy+JDSTYOuk/pySvFyby/A+bsAPWIaVmo7qqhQ==}
     engines: {node: '>=12.6'}
     hasBin: true
     requiresBuild: true
