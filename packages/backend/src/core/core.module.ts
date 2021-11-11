@@ -1,6 +1,6 @@
-import { Global, Module, NotFoundException } from '@nestjs/common';
-import { ConfigModule, ConfigService } from '@nestjs/config';
-import { PrismaService } from './prisma.service';
+import { Global, Module, NotFoundException } from '@nestjs/common'
+import { ConfigModule, ConfigService } from '@nestjs/config'
+import { PrismaService } from './prisma.service'
 
 @Global()
 @Module({
