@@ -5,7 +5,8 @@
 type Node {
   id: ID!
   name: String!
-  parentId: String!
+  parentId: Float!
+  children: [Node!]!
 }
 
 type Post {
@@ -13,6 +14,9 @@ type Post {
   title: String!
   content: String!
   create_at: DateTime!
+  nodeId: Float!
+  authorId: Float!
+  nodePath: [Node!]!
 }
 
 """
@@ -24,6 +28,7 @@ type User {
   id: ID!
   name: String!
   email: String!
+  posts(skip: Int = 0, take: Int = 50): [Post!]!
 }
 
 type Query {

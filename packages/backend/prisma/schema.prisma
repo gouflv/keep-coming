@@ -20,10 +20,11 @@ model User {
 }
 
 model Node {
-  id       Int    @id @default(autoincrement())
-  name     String
-  parentId Int    @default(0)
-  sort     Int    @default(1)
+  id        Int      @id @default(autoincrement())
+  name      String
+  parentId  Int
+  sort      Int      @default(1)
+  create_at DateTime @default(now())
 }
 
 model Post {

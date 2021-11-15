@@ -9,8 +9,8 @@ export class Node {
   name: string
 
   @Field()
-  parentId: string
+  parentId: number
 
-  // @Field()
-  // children: Node[]
+  @Field(type => [Node])
+  children: Node[]
 }

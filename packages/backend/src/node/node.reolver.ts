@@ -1,5 +1,5 @@
 import { ParseIntPipe } from '@nestjs/common'
-import { Args, Query, Resolver } from '@nestjs/graphql'
+import { Args, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql'
 import { Node } from './models/node.model'
 import { NodeService } from './node.service'
 
@@ -16,6 +16,13 @@ export class NodeResolver {
   async nodes() {
     return this.nodeService.findMany({
       parentId: { equals: 0 },
+    })
+  }
+
+  @ResolveField()
+  async children(@Parent() parent: Node) {
+    return this.nodeService.findMany({
+      parentId: { equals: parent.id },
     })
   }
 }

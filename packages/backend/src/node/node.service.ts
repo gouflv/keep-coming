@@ -16,4 +16,19 @@ export class NodeService {
       orderBy: { sort: 'asc' },
     })
   }
+
+  async getPathOf(node: Node) {
+    const path: Node[] = []
+
+    const walker = async (curr: Node) => {
+      const parent = await this.findOne({ id: curr.parentId })
+      if (!parent) return
+      path.push(parent)
+      walker(parent)
+    }
+
+    await walker(node)
+
+    return [...path, node]
+  }
 }
