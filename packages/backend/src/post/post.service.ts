@@ -22,6 +22,10 @@ export class PostService {
     })
   }
 
+  async count(where: Prisma.PostWhereInput): Promise<number> {
+    return this.prisma.post.count({ where })
+  }
+
   async create(data: Prisma.PostCreateInput): Promise<Post> {
     return this.prisma.post.create({ data })
   }

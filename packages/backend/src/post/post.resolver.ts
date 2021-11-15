@@ -22,6 +22,11 @@ export class PostResolver {
     return this.postService.findMany({}, page)
   }
 
+  @Query(returns => Number)
+  async countOfPosts() {
+    return this.postService.count({})
+  }
+
   @ResolveField()
   async nodePath(@Parent() post: Post) {
     const node = await this.nodeService.findOne({

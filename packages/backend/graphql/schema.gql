@@ -35,6 +35,7 @@ type Query {
   user(id: Float!): User!
   post(id: Float!): Post!
   posts(skip: Int = 0, take: Int = 50): [Post!]!
+  countOfPosts: Float!
   node(id: Float!): Node!
   nodes: [Node!]!
 }
