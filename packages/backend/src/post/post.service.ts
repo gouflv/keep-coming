@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { Post, Prisma } from '@prisma/client'
 import { PrismaService } from 'src/core/prisma.service'
-import { PaginationArgs } from 'src/utils'
+import { PostOrderField, PostsArgs } from './models'
 
 @Injectable()
 export class PostService {
@@ -13,14 +13,20 @@ export class PostService {
 
   async findMany(
     where: Prisma.PostWhereInput,
-    page: PaginationArgs,
-    orderBy?: Prisma.Enumerable<Prisma.PostOrderByWithRelationInput>,
+    args: PostsArgs,
   ): Promise<Post[]> {
     return this.prisma.post.findMany({
       where,
-      skip: page.skip,
-      take: page.take,
-      orderBy,
+      skip: args.skip,
+      take: args.take,
+      orderBy: [
+        {
+          [args.order.field]: args.order.direction,
+        },
+        {
+          create_at: args.order.direction,
+        },
+      ],
     })
   }
 

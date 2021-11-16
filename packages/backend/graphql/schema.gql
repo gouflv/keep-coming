@@ -13,7 +13,23 @@ type User {
   id: ID!
   name: String!
   email: String!
-  posts(skip: Int = 0, take: Int = 50): [Post!]!
+  posts(skip: Int = 0, take: Int = 50, order: PostOrder = {field: CREATE_AT, direction: DESC}): [Post!]!
+}
+
+input PostOrder {
+  field: PostOrderField!
+  direction: OrderDirection
+}
+
+enum PostOrderField {
+  CREATE_AT
+  LAST_REPLY_AT
+}
+
+"""A list orderBy direction argument"""
+enum OrderDirection {
+  ASC
+  DESC
 }
 
 type Post {
@@ -35,18 +51,15 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 scalar DateTime
 
 type Query {
+  """Look up a user"""
   user(id: Float!): User!
+
+  """Look up a post"""
   post(id: Float!): Post!
-  posts(sort: PostSort = REPLY, skip: Int = 0, take: Int = 50): [Post!]!
+
+  """A list of posts"""
+  posts(skip: Int = 0, take: Int = 50, order: PostOrder = {field: CREATE_AT, direction: DESC}): [Post!]!
   countOfPosts: Float!
   node(id: Float!): Node!
   nodes: [Node!]!
-}
-
-enum PostSort {
-  """Sort by `create_at`"""
-  CREATE
-
-  """Sort by `last_reply_at`"""
-  REPLY
 }

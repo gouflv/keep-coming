@@ -1,10 +1,9 @@
 import { ParseIntPipe } from '@nestjs/common'
 import { Args, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql'
 import { UserService } from 'src/user/user.service'
-import { PaginationArgs } from 'src/utils'
+import { PaginationArgs } from 'src/utils/graphql'
 import { NodeService } from '../node/node.service'
-import { Post } from './models/post.model'
-import { PostsArgs, PostSort } from './models/posts.args'
+import { Post, PostsArgs } from './models'
 import { PostService } from './post.service'
 
 @Resolver(of => Post)
@@ -15,20 +14,14 @@ export class PostResolver {
     private userService: UserService,
   ) {}
 
-  @Query(returns => Post)
+  @Query(returns => Post, { description: 'Look up a post' })
   async post(@Args('id', ParseIntPipe) id: number) {
     return this.postService.findOne({ id })
   }
 
-  @Query(returns => [Post])
-  async posts(@Args() page: PaginationArgs, @Args() args: PostsArgs) {
-    return this.postService.findMany(
-      {},
-      page,
-      args.sort === PostSort.CREATE
-        ? [{ create_at: 'desc' }]
-        : [{ [args.sort]: 'desc' }, { create_at: 'desc' }],
-    )
+  @Query(returns => [Post], { description: 'A list of posts' })
+  async posts(@Args() args: PostsArgs) {
+    return this.postService.findMany({}, args)
   }
 
   @Query(returns => Number)
