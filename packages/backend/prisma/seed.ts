@@ -1,4 +1,5 @@
 import { Prisma, PrismaClient } from '@prisma/client'
+import * as argon from 'argon2'
 
 type Post = Prisma.PostCreateInput
 type User = Prisma.UserCreateInput & { posts?: Post[] }
@@ -7,8 +8,8 @@ type Node = Prisma.NodeCreateInput & { children?: Prisma.NodeCreateInput[] }
 const prisma = new PrismaClient()
 
 const users: User[] = [
-  { name: 'gouflv', email: 'lv.gouf@gmail.com' },
-  { name: 'fox', email: 'fox@gamil.com' },
+  { name: 'gouflv', email: 'lv.gouf@gmail.com', password: '123' },
+  { name: 'fox', email: 'fox@gamil.com', password: 'secret' },
 ]
 
 const nodes: Node[] = [
@@ -65,7 +66,8 @@ const posts: Post[] = [
 
 async function run() {
   for (const user of users) {
-    const u = await prisma.user.create({ data: user })
+    user.password = await argon.hash(user.password)
+    await prisma.user.create({ data: user })
   }
 
   for (const node of nodes) {

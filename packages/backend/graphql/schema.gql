@@ -53,6 +53,7 @@ scalar DateTime
 type Query {
   """Look up a user"""
   user(id: Float!): User!
+  auth(password: String!, name: String!): String!
 
   """Look up a post"""
   post(id: Float!): Post!
@@ -62,4 +63,15 @@ type Query {
   countOfPosts: Float!
   node(id: Float!): Node!
   nodes: [Node!]!
+}
+
+type Mutation {
+  register(addUserInput: AddUserInput!): User!
+}
+
+"""User register form data"""
+input AddUserInput {
+  name: String!
+  email: String!
+  password: String!
 }

@@ -1,8 +1,16 @@
-import { ParseIntPipe } from '@nestjs/common'
-import { Args, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql'
-import { Post, PostsArgs } from 'src/post/models'
+import { HttpException, ParseIntPipe } from '@nestjs/common'
+import {
+  Args,
+  Mutation,
+  Parent,
+  Query,
+  ResolveField,
+  Resolver,
+} from '@nestjs/graphql'
+import { Post, PostsArgs } from 'src/post'
 import { PostService } from '../post/post.service'
-import { User } from './models/user.model'
+import { AddUserInput } from './types/user.input'
+import { User } from './types/user.model'
 import { UserService } from './user.service'
 
 @Resolver(of => User)
@@ -27,5 +35,15 @@ export class UserResolver {
       },
       args,
     )
+  }
+
+  @Query(returns => String)
+  async auth(@Args('name') name: string, @Args('password') password: string) {
+    return this.userService.auth(name, password)
+  }
+
+  @Mutation(returns => User)
+  async register(@Args('addUserInput') input: AddUserInput) {
+    return this.userService.create(input)
   }
 }
