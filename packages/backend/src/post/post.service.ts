@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { Post, Prisma } from '@prisma/client'
 import { PrismaService } from 'src/core/prisma.service'
-import { PostOrderField, PostsArgs } from './models'
+import { PostsArgs } from './types/post.args'
 
 @Injectable()
 export class PostService {

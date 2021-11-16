@@ -1,9 +1,9 @@
 import { ParseIntPipe } from '@nestjs/common'
 import { Args, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql'
 import { UserService } from 'src/user/user.service'
-import { PaginationArgs } from 'src/utils/graphql'
 import { NodeService } from '../node/node.service'
-import { Post, PostsArgs } from './models'
+import { PostsArgs } from './types/post.args'
+import { Post } from './types/post.model'
 import { PostService } from './post.service'
 
 @Resolver(of => Post)
