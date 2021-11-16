@@ -14,11 +14,13 @@ export class PostService {
   async findMany(
     where: Prisma.PostWhereInput,
     page: PaginationArgs,
+    orderBy?: Prisma.Enumerable<Prisma.PostOrderByWithRelationInput>,
   ): Promise<Post[]> {
     return this.prisma.post.findMany({
       where,
       skip: page.skip,
       take: page.take,
+      orderBy,
     })
   }
 

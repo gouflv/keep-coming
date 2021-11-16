@@ -28,10 +28,11 @@ model Node {
 }
 
 model Post {
-  id        Int      @id @default(autoincrement())
-  title     String
-  content   String
-  create_at DateTime @default(now())
+  id            Int       @id @default(autoincrement())
+  title         String
+  content       String
+  create_at     DateTime  @default(now())
+  last_reply_at DateTime?
 
   // relations
   nodeId   Int
