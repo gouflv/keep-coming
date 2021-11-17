@@ -1,4 +1,4 @@
-import { HttpException, ParseIntPipe } from '@nestjs/common'
+import { ParseIntPipe } from '@nestjs/common'
 import {
   Args,
   Mutation,
@@ -38,7 +38,7 @@ export class UserResolver {
   }
 
   @Query(returns => String)
-  async auth(@Args('name') name: string, @Args('password') password: string) {
+  async login(@Args('name') name: string, @Args('password') password: string) {
     return this.userService.auth(name, password)
   }
 
