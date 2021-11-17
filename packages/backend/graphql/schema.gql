@@ -64,8 +64,11 @@ type Query {
 
   """A list of posts"""
   posts(skip: Int = 0, take: Int = 50, order: PostOrder = {field: CREATE_AT, direction: DESC}, authorId: Float, nodeId: Float): PostPaginatedResponse!
-  countOfPosts: Float!
+
+  """Look up a node"""
   node(id: Float!): Node!
+
+  """A list of nodes"""
   nodes: [Node!]!
   login(password: String!, name: String!): String!
 }

@@ -27,11 +27,6 @@ export class PostResolver {
     }
   }
 
-  @Query(returns => Number)
-  async countOfPosts() {
-    return this.postService.count({})
-  }
-
   @ResolveField()
   async author(@Parent() post: Post) {
     return this.userService.findOne({ id: post.authorId })

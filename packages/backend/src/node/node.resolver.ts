@@ -7,12 +7,12 @@ import { NodeService } from './node.service'
 export class NodeResolver {
   constructor(private nodeService: NodeService) {}
 
-  @Query(returns => Node)
+  @Query(returns => Node, { description: 'Look up a node' })
   async node(@Args('id', ParseIntPipe) id: number) {
     return this.nodeService.findOne({ id })
   }
 
-  @Query(returns => [Node])
+  @Query(returns => [Node], { description: 'A list of nodes' })
   async nodes() {
     return this.nodeService.findMany({
       parentId: { equals: 0 },
