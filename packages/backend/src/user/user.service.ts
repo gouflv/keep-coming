@@ -1,4 +1,4 @@
-import { HttpException, Injectable, NotFoundException } from '@nestjs/common'
+import { HttpException, Injectable } from '@nestjs/common'
 import { Prisma, User } from '@prisma/client'
 import * as argon from 'argon2'
 import { PrismaService } from 'src/core/prisma.service'
@@ -47,24 +47,5 @@ export class UserService {
 
   async delete(where: Prisma.UserWhereUniqueInput): Promise<User> {
     return this.prisma.user.delete({ where })
-  }
-
-  async auth(name: string, password: string): Promise<string> {
-    const user = await this.findFirst({
-      name,
-    })
-    if (!user) {
-      throw new HttpException(`User ${name} no found`, 401)
-    }
-
-    try {
-      if (await argon.verify(user.password, password)) {
-        return user.name
-      } else {
-        throw new HttpException(`Password error`, 401)
-      }
-    } catch (e) {
-      throw new HttpException(`${e.message}`, 500)
-    }
   }
 }

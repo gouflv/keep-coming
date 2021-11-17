@@ -37,11 +37,6 @@ export class UserResolver {
     )
   }
 
-  @Query(returns => String)
-  async login(@Args('name') name: string, @Args('password') password: string) {
-    return this.userService.auth(name, password)
-  }
-
   @Mutation(returns => User)
   async register(@Args('addUserInput') input: AddUserInput) {
     return this.userService.create(input)

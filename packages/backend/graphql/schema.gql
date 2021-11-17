@@ -58,7 +58,6 @@ type PostPaginatedResponse {
 type Query {
   """Look up a user"""
   user(id: Float!): User!
-  login(password: String!, name: String!): String!
 
   """Look up a post"""
   post(id: Float!): Post!
@@ -68,6 +67,7 @@ type Query {
   countOfPosts: Float!
   node(id: Float!): Node!
   nodes: [Node!]!
+  login(password: String!, name: String!): String!
 }
 
 type Mutation {
