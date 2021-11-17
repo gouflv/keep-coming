@@ -11,14 +11,17 @@ export class PostService {
     return this.prisma.post.findUnique({ where })
   }
 
-  async findMany(filter: PostFilter, args: PostsArgs): Promise<Post[]> {
+  async findMany(
+    { authorId, nodeId }: PostFilter,
+    { order, skip, take }: PostsArgs,
+  ): Promise<Post[]> {
     const where = (() => {
       const res: Prisma.PostWhereInput = {}
-      if (filter.authorId) {
-        res['authorId'] = { equals: filter.authorId }
+      if (authorId) {
+        res['authorId'] = { equals: authorId }
       }
-      if (filter.nodeId) {
-        res['nodeId'] = { equals: filter.nodeId }
+      if (nodeId) {
+        res['nodeId'] = { equals: nodeId }
       }
       return res
     })()
@@ -26,12 +29,12 @@ export class PostService {
     const orderBy = (() => {
       const res: Prisma.PostOrderByWithRelationInput[] = [
         {
-          [args.order.field]: args.order.direction,
+          [order.field]: order.direction,
         },
       ]
-      if (args.order.field === PostOrderField.LAST_REPLY_AT) {
+      if (order.field === PostOrderField.LAST_REPLY_AT) {
         res.push({
-          create_at: args.order.direction,
+          create_at: order.direction,
         })
       }
       return res
@@ -39,9 +42,9 @@ export class PostService {
 
     return this.prisma.post.findMany({
       where,
-      skip: args.skip,
-      take: args.take,
       orderBy,
+      skip,
+      take,
     })
   }
 
