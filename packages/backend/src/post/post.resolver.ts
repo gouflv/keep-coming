@@ -3,7 +3,7 @@ import { Args, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql'
 import { UserService } from 'src/user/user.service'
 import { NodeService } from '../node/node.service'
 import { PostsArgs } from './types/post.args'
-import { Post } from './types/post.model'
+import { Post, PostPaginatedResponse } from './types/post.model'
 import { PostService } from './post.service'
 
 @Resolver(of => Post)
@@ -19,9 +19,12 @@ export class PostResolver {
     return this.postService.findOne({ id })
   }
 
-  @Query(returns => [Post], { description: 'A list of posts' })
+  @Query(returns => PostPaginatedResponse, { description: 'A list of posts' })
   async posts(@Args() args: PostsArgs) {
-    return this.postService.findMany({}, args)
+    return {
+      items: await this.postService.findMany({}, args),
+      total: await this.postService.count({}),
+    }
   }
 
   @Query(returns => Number)

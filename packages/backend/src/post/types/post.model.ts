@@ -1,5 +1,6 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql'
 import { User } from 'src/user/types/user.model'
+import { PaginatedResponse } from 'src/utils/graphql'
 import { Node } from '../../node/models/node.model'
 
 @ObjectType()
@@ -34,3 +35,6 @@ export class Post {
   @Field(type => [Node])
   nodePath: Node[]
 }
+
+@ObjectType()
+export class PostPaginatedResponse extends PaginatedResponse(Post) {}

@@ -50,16 +50,21 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+type PostPaginatedResponse {
+  items: [Post!]!
+  total: Float!
+}
+
 type Query {
   """Look up a user"""
   user(id: Float!): User!
-  auth(password: String!, name: String!): String!
+  login(password: String!, name: String!): String!
 
   """Look up a post"""
   post(id: Float!): Post!
 
   """A list of posts"""
-  posts(skip: Int = 0, take: Int = 50, order: PostOrder = {field: CREATE_AT, direction: DESC}): [Post!]!
+  posts(skip: Int = 0, take: Int = 50, order: PostOrder = {field: CREATE_AT, direction: DESC}): PostPaginatedResponse!
   countOfPosts: Float!
   node(id: Float!): Node!
   nodes: [Node!]!
