@@ -31,7 +31,7 @@ export class UserResolver {
   async posts(@Parent() user: User, @Args() args: PostsArgs) {
     return this.postService.findMany(
       {
-        authorId: { equals: user.id },
+        authorId: user.id,
       },
       args,
     )

@@ -64,7 +64,7 @@ type Query {
   post(id: Float!): Post!
 
   """A list of posts"""
-  posts(skip: Int = 0, take: Int = 50, order: PostOrder = {field: CREATE_AT, direction: DESC}): PostPaginatedResponse!
+  posts(skip: Int = 0, take: Int = 50, order: PostOrder = {field: CREATE_AT, direction: DESC}, authorId: Float, nodeId: Float): PostPaginatedResponse!
   countOfPosts: Float!
   node(id: Float!): Node!
   nodes: [Node!]!

@@ -2,7 +2,7 @@ import { ParseIntPipe } from '@nestjs/common'
 import { Args, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql'
 import { UserService } from 'src/user/user.service'
 import { NodeService } from '../node/node.service'
-import { PostsArgs } from './types/post.args'
+import { PostFilter, PostsArgs } from './types/post.args'
 import { Post, PostPaginatedResponse } from './types/post.model'
 import { PostService } from './post.service'
 
@@ -20,9 +20,9 @@ export class PostResolver {
   }
 
   @Query(returns => PostPaginatedResponse, { description: 'A list of posts' })
-  async posts(@Args() args: PostsArgs) {
+  async posts(@Args() filter: PostFilter, @Args() args: PostsArgs) {
     return {
-      items: await this.postService.findMany({}, args),
+      items: await this.postService.findMany(filter, args),
       total: await this.postService.count({}),
     }
   }

@@ -27,3 +27,12 @@ export class PostsArgs extends PaginationArgs {
     direction: OrderDirection.DESC,
   }
 }
+
+@ArgsType()
+export class PostFilter {
+  @Field({ nullable: true })
+  authorId?: number
+
+  @Field({ nullable: true })
+  nodeId?: number
+}

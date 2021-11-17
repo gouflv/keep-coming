@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { Post, Prisma } from '@prisma/client'
 import { PrismaService } from 'src/core/prisma.service'
-import { PostsArgs } from './types/post.args'
+import { PostFilter, PostOrderField, PostsArgs } from './types/post.args'
 
 @Injectable()
 export class PostService {
@@ -11,22 +11,37 @@ export class PostService {
     return this.prisma.post.findUnique({ where })
   }
 
-  async findMany(
-    where: Prisma.PostWhereInput,
-    args: PostsArgs,
-  ): Promise<Post[]> {
+  async findMany(filter: PostFilter, args: PostsArgs): Promise<Post[]> {
+    const where = (() => {
+      const res: Prisma.PostWhereInput = {}
+      if (filter.authorId) {
+        res['authorId'] = { equals: filter.authorId }
+      }
+      if (filter.nodeId) {
+        res['nodeId'] = { equals: filter.nodeId }
+      }
+      return res
+    })()
+
+    const orderBy = (() => {
+      const res: Prisma.PostOrderByWithRelationInput[] = [
+        {
+          [args.order.field]: args.order.direction,
+        },
+      ]
+      if (args.order.field === PostOrderField.LAST_REPLY_AT) {
+        res.push({
+          create_at: args.order.direction,
+        })
+      }
+      return res
+    })()
+
     return this.prisma.post.findMany({
       where,
       skip: args.skip,
       take: args.take,
-      orderBy: [
-        {
-          [args.order.field]: args.order.direction,
-        },
-        {
-          create_at: args.order.direction,
-        },
-      ],
+      orderBy,
     })
   }
 
