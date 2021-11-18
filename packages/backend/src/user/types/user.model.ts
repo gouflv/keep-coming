@@ -14,6 +14,8 @@ export class User {
 
   password: string
 
-  @Field(type => [Post])
-  posts: Post[]
+  @Field(type => [Post], {
+    description: "A list of user's posts",
+  })
+  posts?: Post[]
 }

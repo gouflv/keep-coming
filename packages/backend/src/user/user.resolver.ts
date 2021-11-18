@@ -25,9 +25,7 @@ export class UserResolver {
     return this.userService.findOne({ id })
   }
 
-  @ResolveField(type => [Post], {
-    description: 'A list of posts make by this user',
-  })
+  @ResolveField(type => [Post])
   async posts(@Parent() user: User, @Args() args: PostsArgs) {
     return this.postService.findMany(
       {

@@ -13,6 +13,8 @@ type User {
   id: ID!
   name: String!
   email: String!
+
+  """A list of user's posts"""
   posts(skip: Int = 0, take: Int = 50, order: PostOrder = {field: CREATE_AT, direction: DESC}): [Post!]!
 }
 
