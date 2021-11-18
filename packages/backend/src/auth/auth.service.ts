@@ -1,4 +1,4 @@
-import { HttpException, Injectable } from '@nestjs/common'
+import { Injectable, UnauthorizedException } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import * as argon from 'argon2'
 import { User } from 'src/user'
@@ -10,27 +10,26 @@ import { LoginResponse } from './types/login.response'
 export class AuthService {
   constructor(private userService: UserService, private jtw: JwtService) {}
 
-  async validate(name: string, password: string): Promise<User> {
+  /**
+   * Return the user if found matched, or throw an exception.
+   */
+  async validateLocalUser(name: string, password: string): Promise<User> {
     const user = await this.userService.findFirst({ name })
 
     if (!user) {
-      throw new HttpException(`User ${name} no found`, 401)
+      throw new UnauthorizedException()
     }
 
-    try {
-      if (await argon.verify(user.password, password)) {
-        return user
-      } else {
-        throw new HttpException(`Password error`, 401)
-      }
-    } catch (e) {
-      throw new HttpException(`${e.message}`, 500)
+    if (await argon.verify(user.password, password)) {
+      return user
+    } else {
+      throw new UnauthorizedException()
     }
   }
 
   async login(name: string, password: string): Promise<LoginResponse> {
     try {
-      const user = await this.validate(name, password)
+      const user = await this.validateLocalUser(name, password)
 
       const payload: JwtPayload = {
         sub: user.id,
