@@ -55,6 +55,11 @@ type PostPaginatedResponse {
   total: Float!
 }
 
+type LoginResponse {
+  user: User!
+  access_token: String!
+}
+
 type Query {
   """Look up a user"""
   user(id: Float!): User!
@@ -70,7 +75,7 @@ type Query {
 
   """A list of nodes"""
   nodes: [Node!]!
-  login(password: String!, name: String!): String!
+  login(password: String!, name: String!): LoginResponse!
 }
 
 type Mutation {
