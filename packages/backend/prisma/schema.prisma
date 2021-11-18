@@ -30,7 +30,7 @@ model Node {
 model Post {
   id            Int       @id @default(autoincrement())
   title         String
-  content       String
+  content       String    @db.Text
   create_at     DateTime  @default(now())
   last_reply_at DateTime?
 

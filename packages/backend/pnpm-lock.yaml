@@ -30,6 +30,7 @@ specifiers:
   eslint-plugin-prettier: ^4.0.0
   graphql: ^15.7.2
   jest: ^27.2.5
+  mockjs: ^1.1.0
   passport: ^0.5.0
   passport-jwt: ^4.0.0
   passport-local: ^1.0.0
@@ -85,6 +86,7 @@ devDependencies:
   eslint-config-prettier: 8.3.0_eslint@8.2.0
   eslint-plugin-prettier: 4.0.0_307f015733298e29da9050ea0cee5b9e
   jest: 27.3.1_ts-node@10.4.0
+  mockjs: 1.1.0
   prettier: 2.4.1
   source-map-support: 0.5.20
   supertest: 6.1.6
@@ -4533,6 +4535,13 @@ packages:
     engines: {node: '>=10'}
     hasBin: true
     dev: false
+
+  /mockjs/1.1.0:
+    resolution: {integrity: sha512-eQsKcWzIaZzEZ07NuEyO4Nw65g0hdWAyurVol1IPl1gahRwY+svqzfgfey8U8dahLwG44d6/RwEzuK52rSa/JQ==}
+    hasBin: true
+    dependencies:
+      commander: 4.1.1
+    dev: true
 
   /ms/2.0.0:
     resolution: {integrity: sha1-VgiurfwAvmwpAd9fmGF4jeDVl8g=}

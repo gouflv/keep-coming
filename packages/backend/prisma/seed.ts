@@ -1,11 +1,18 @@
 import { Prisma, PrismaClient } from '@prisma/client'
 import * as argon from 'argon2'
+import { Random } from 'mockjs'
 
 type Post = Prisma.PostCreateInput
 type User = Prisma.UserCreateInput & { posts?: Post[] }
 type Node = Prisma.NodeCreateInput & { children?: Prisma.NodeCreateInput[] }
 
 const prisma = new PrismaClient()
+
+const getRandomInt = (min, max) => {
+  min = Math.ceil(min)
+  max = Math.floor(max)
+  return Math.floor(Math.random() * (max - min + 1)) + min
+}
 
 const users: User[] = [
   { name: 'gouflv', email: 'lv.gouf@gmail.com', password: '123' },
@@ -42,26 +49,14 @@ const posts: Post[] = [
     title: 'Bonjour',
     content: '你好，这是 KC 的第一个帖子',
   },
-  {
-    nodeId: 6,
-    authorId: 1,
-    title: '双十一好像越来越没感觉了？你双十一买了啥',
-    content:
-      '双十一好像越来越没感觉了？你双十一买了啥双十一好像越来越没感觉了？你双十一买了啥',
-  },
-  {
-    nodeId: 1,
-    authorId: 1,
-    title: '内网环境如何做前端的地图开发？',
-    content: '内网环境如何做前端的地图开发？内网环境如何做前端的地图开发？',
-  },
-  {
-    nodeId: 1,
-    authorId: 2,
-    title: '「白米饭」会让你昏昏欲睡吗？你可以利用这点解决注意力和失眠问题',
-    content:
-      '「白米饭」会让你昏昏欲睡吗？你可以利用这点解决注意力和失眠问题「白米饭」会让你昏昏欲睡吗？你可以利用这点解决注意力和失眠问题',
-  },
+  ...Array.from({ length: 100 }).map((_, i) => {
+    return {
+      nodeId: getRandomInt(1, 8),
+      authorId: getRandomInt(1, 2),
+      title: Random.ctitle(8, 16),
+      content: Random.cparagraph(10, 30),
+    } as Post
+  }),
 ]
 
 async function run() {
