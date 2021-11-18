@@ -17,6 +17,9 @@ model User {
   email     String
   password  String?
   create_at DateTime @default(now())
+  update_at DateTime @updatedAt
+
+  @@map("user")
 }
 
 model Node {
@@ -25,6 +28,8 @@ model Node {
   parentId  Int
   sort      Int      @default(1)
   create_at DateTime @default(now())
+
+  @@map("node")
 }
 
 model Post {
@@ -37,6 +42,8 @@ model Post {
   // relations
   nodeId   Int
   authorId Int
+
+  @@map("post")
 }
 
 model Reply {
@@ -48,4 +55,15 @@ model Reply {
   // relations
   authorId Int
   postId   Int
+
+  @@map("reply")
+}
+
+model Admin {
+  userId    Int
+  nodeId    Int      @default(0)
+  create_at DateTime @default(now())
+
+  @@id([userId, nodeId])
+  @@map("admin")
 }

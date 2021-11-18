@@ -5,6 +5,7 @@ import { Random } from 'mockjs'
 type Post = Prisma.PostCreateInput
 type User = Prisma.UserCreateInput & { posts?: Post[] }
 type Node = Prisma.NodeCreateInput & { children?: Prisma.NodeCreateInput[] }
+type Admin = Prisma.AdminCreateInput
 
 const prisma = new PrismaClient()
 
@@ -18,6 +19,8 @@ const users: User[] = [
   { name: 'gouflv', email: 'lv.gouf@gmail.com', password: '123' },
   { name: 'fox', email: 'fox@gamil.com', password: 'secret' },
 ]
+
+const admins: Admin[] = [{ userId: 1 }]
 
 const nodes: Node[] = [
   {
@@ -79,6 +82,10 @@ async function run() {
 
   for (const post of posts) {
     await prisma.post.create({ data: post })
+  }
+
+  for (const admin of admins) {
+    await prisma.admin.create({ data: admin })
   }
 }
 
