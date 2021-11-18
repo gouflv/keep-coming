@@ -15,5 +15,5 @@ export class User {
   password: string
 
   @Field(type => [Post])
-  posts: Post[]
+  posts?: Post[]
 }

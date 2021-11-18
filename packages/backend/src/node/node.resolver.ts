@@ -1,6 +1,6 @@
 import { ParseIntPipe } from '@nestjs/common'
 import { Args, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql'
-import { Node } from './models/node.model'
+import { Node } from './types/node.model'
 import { NodeService } from './node.service'
 
 @Resolver(of => Node)
