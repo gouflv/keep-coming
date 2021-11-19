@@ -82,6 +82,7 @@ type Query {
 
 type Mutation {
   register(addUserInput: AddUserInput!): User!
+  create(addPostInput: AddPostInput!): Post!
 }
 
 """User register form data"""
@@ -89,4 +90,10 @@ input AddUserInput {
   name: String!
   email: String!
   password: String!
+}
+
+input AddPostInput {
+  title: String!
+  content: String!
+  nodeId: Float!
 }

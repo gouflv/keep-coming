@@ -1,9 +1,18 @@
-import { ParseIntPipe } from '@nestjs/common'
-import { Args, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql'
+import { ParseIntPipe, UseGuards } from '@nestjs/common'
+import {
+  Args,
+  Mutation,
+  Parent,
+  Query,
+  ResolveField,
+  Resolver,
+} from '@nestjs/graphql'
+import { GqlAuthGuard, GqlAuthPayload, JwtPayload } from 'src/auth'
 import { UserService } from 'src/user/user.service'
 import { NodeService } from '../node/node.service'
 import { PostService } from './post.service'
 import { PostFilter, PostsArgs } from './types/post.args'
+import { AddPostInput } from './types/post.input'
 import { Post, PostPaginatedResponse } from './types/post.model'
 
 @Resolver(of => Post)
@@ -43,5 +52,17 @@ export class PostResolver {
       id: post.nodeId,
     })
     return this.nodeService.getPathOf(node)
+  }
+
+  @Mutation(returns => Post)
+  @UseGuards(GqlAuthGuard)
+  create(
+    @GqlAuthPayload() payload: JwtPayload,
+    @Args('addPostInput') input: AddPostInput,
+  ) {
+    return this.postService.create({
+      ...input,
+      authorId: payload.sub,
+    })
   }
 }
