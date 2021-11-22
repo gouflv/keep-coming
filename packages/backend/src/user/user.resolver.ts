@@ -7,7 +7,7 @@ import {
   ResolveField,
   Resolver,
 } from '@nestjs/graphql'
-import { Post, PostsArgs } from 'src/post'
+import { Post, PostsArgs } from '../post'
 import { PostService } from '../post/post.service'
 import { AddUserInput } from './types/user.input'
 import { User } from './types/user.model'

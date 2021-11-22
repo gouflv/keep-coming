@@ -7,8 +7,8 @@ import {
   ResolveField,
   Resolver,
 } from '@nestjs/graphql'
-import { GqlAuthGuard, GqlAuthPayload, JwtPayload } from 'src/auth'
-import { UserService } from 'src/user/user.service'
+import { GqlAuthGuard, GqlAuthPayload, JwtPayload } from '../auth'
+import { UserService } from '../user/user.service'
 import { NodeService } from '../node/node.service'
 import { PostService } from './post.service'
 import { PostFilter, PostsArgs } from './types/post.args'

@@ -1,7 +1,7 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql'
-import { User } from 'src/user'
-import { IPaginatedResponse } from 'src/utils/graphql'
 import { Node } from '../../node'
+import { User } from '../../user'
+import { IPaginatedResponse } from '../../utils/graphql'
 
 @ObjectType()
 export class Post {

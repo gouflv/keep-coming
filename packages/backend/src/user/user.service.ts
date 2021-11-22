@@ -1,7 +1,7 @@
 import { HttpException, Injectable } from '@nestjs/common'
 import { Prisma, User } from '@prisma/client'
 import * as argon from 'argon2'
-import { PrismaService } from 'src/core/prisma.service'
+import { PrismaService } from '../core/prisma.service'
 
 @Injectable()
 export class UserService {

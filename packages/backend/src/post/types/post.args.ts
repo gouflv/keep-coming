@@ -1,5 +1,5 @@
 import { ArgsType, Field, InputType, registerEnumType } from '@nestjs/graphql'
-import { OrderDirection, PaginationArgs } from 'src/utils/graphql'
+import { OrderDirection, PaginationArgs } from '../../utils/graphql'
 
 export enum PostOrderField {
   CREATE_AT = 'create_at',

@@ -1,8 +1,8 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import * as argon from 'argon2'
-import { User } from 'src/user'
-import { UserService } from 'src/user/user.service'
+import { User } from '../user'
+import { UserService } from '../user/user.service'
 import { JwtPayload } from './types/jwt-payload'
 import { LoginResponse } from './types/login.response'
 
