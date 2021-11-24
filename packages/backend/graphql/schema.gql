@@ -78,6 +78,9 @@ type Query {
   """A list of nodes"""
   nodes: [Node!]!
   login(password: String!, name: String!): LoginResponse!
+
+  """Look up a user that has logged in"""
+  currentUser: User!
 }
 
 type Mutation {

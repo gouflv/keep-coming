@@ -1,4 +1,6 @@
 import React, { FC } from 'react'
+import ClientOnly from './ClientOnly'
+import HeaderUserMenu from './HeaderUserMenu'
 
 const Header: FC = () => {
   return (
@@ -10,11 +12,10 @@ const Header: FC = () => {
           </a>
         </div>
 
-        <div className="flex-grow-0 ml-auto flex space-x-2 text-gray-600">
-          <a className="">Sign in</a>
-          <a className="">Register</a>
-          <a className="">User</a>
-          <a className="">Logout</a>
+        <div className="flex-grow-0 ml-auto">
+          <ClientOnly>
+            <HeaderUserMenu />
+          </ClientOnly>
         </div>
       </div>
     </div>

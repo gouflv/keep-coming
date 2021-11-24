@@ -1,8 +1,11 @@
 import { gql } from '@apollo/client'
 import type { NextPage } from 'next'
 import React from 'react'
+import BaseLayout, {
+  BaseLayoutMain,
+  BaseLayoutSide,
+} from '../components/BaseLayout'
 import Button from '../components/Button'
-import Container from '../components/Container'
 import Header from '../components/Header'
 import Panel from '../components/Panel'
 import PostListItem from '../components/PostListItem'
@@ -16,13 +19,13 @@ const Home: NextPage<{ initialPosts: any[]; nodes: any[] }> = ({
     <div>
       <Header></Header>
 
-      <Container className="grid grid-cols-12 gap-8">
-        <div className="col-span-9">
+      <BaseLayout>
+        <BaseLayoutMain>
           {initialPosts.map(post => (
             <PostListItem key={post.id} data={post} />
           ))}
-        </div>
-        <div className="col-span-3">
+        </BaseLayoutMain>
+        <BaseLayoutSide>
           <Panel title={'Top Nodes'} className="mb-4">
             <ol className="divide-y">
               {nodes.map((node, i) => (
@@ -53,8 +56,8 @@ const Home: NextPage<{ initialPosts: any[]; nodes: any[] }> = ({
               View All
             </Button>
           </Panel>
-        </div>
-      </Container>
+        </BaseLayoutSide>
+      </BaseLayout>
     </div>
   )
 }
@@ -64,7 +67,7 @@ export default Home
 export async function getStaticProps() {
   const { data } = await client.query({
     query: gql`
-      query Posts {
+      query HomeData {
         posts {
           total
           items {
@@ -88,6 +91,12 @@ export async function getStaticProps() {
         }
       }
     `,
+    variables: {
+      order: {
+        field: 'CREATE_AT',
+        direction: 'ASC',
+      },
+    },
   })
 
   return {
