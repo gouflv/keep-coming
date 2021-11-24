@@ -8,11 +8,11 @@ const PostListItem: FC<{ data: any }> = ({ data }) => {
       {/* Header */}
       <div className="space-x-1 mb-1 text-xs text-gray-500">
         <a href="" className="p-0.5 -ml-0.5 hover:underline hover:bg-gray-100">
-          发现分享
+          {data.node.name}
         </a>
         <span>·</span>
         <a href="" className="p-0.5 hover:underline hover:bg-gray-100">
-          gouflv
+          {data.author.name}
         </a>
         <time className="">6 hours ago</time>
       </div>
