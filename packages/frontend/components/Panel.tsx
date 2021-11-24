@@ -10,7 +10,7 @@ const Panel: FC<{ className?: string; title?: string | ReactElement }> = ({
   return (
     <section className={clsx('bg-white p-4 shadow-sm rounded-sm', className)}>
       {/* Title */}
-      {hasTitle && <div className="mb-2 -mt-1">{title}</div>}
+      {hasTitle && <div className="mb-2 -mt-1 text-sm">{title}</div>}
 
       {/* Content */}
       {children}

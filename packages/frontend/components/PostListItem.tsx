@@ -14,7 +14,7 @@ const PostListItem: FC<{ data: any }> = ({ data }) => {
         <a href="" className="p-0.5 hover:underline hover:bg-gray-100">
           {data.author.name}
         </a>
-        <time className="">6 hours ago</time>
+        <time className="">{data.create_at}</time>
       </div>
 
       {/* Body */}
@@ -30,9 +30,6 @@ const PostListItem: FC<{ data: any }> = ({ data }) => {
           <a href="" className="px-1.5 py-1 -ml-1.5 hover:bg-gray-100 rounded">
             6 Comments
           </a>
-        </div>
-        <div className="flex-grow-0 ml-auto">
-          <Button size={'sm'}>Save</Button>
         </div>
       </div>
     </Panel>
