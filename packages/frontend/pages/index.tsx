@@ -37,11 +37,10 @@ const Home: NextPage<{ initialPosts: any[]; nodes: any[] }> = ({
                 </li>
               ))}
             </ol>
-            {/* <div className="mt-4">
-              <Button className="mt-2" round type={'primary'}>
-                Explore
-              </Button>
-            </div> */}
+
+            <Button className="mt-4" round type={'primary'}>
+              View All
+            </Button>
           </Panel>
 
           <Panel title={'My Nodes'}>
@@ -52,9 +51,6 @@ const Home: NextPage<{ initialPosts: any[]; nodes: any[] }> = ({
                 </li>
               ))}
             </ol>
-            <Button className="mt-4" round type={'primary'}>
-              View All
-            </Button>
           </Panel>
         </BaseLayoutSide>
       </BaseLayout>

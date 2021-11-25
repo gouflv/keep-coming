@@ -2,7 +2,7 @@ import { gql, useQuery } from '@apollo/client'
 import { FC } from 'react'
 
 const GQL_CURRENT_USER = gql`
-  query CurrentLogin {
+  query CurrentUser {
     currentUser {
       id
       name
