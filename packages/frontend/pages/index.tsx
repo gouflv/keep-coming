@@ -1,14 +1,14 @@
 import { gql } from '@apollo/client'
 import type { NextPage } from 'next'
 import React from 'react'
-import BaseLayout, {
-  BaseLayoutMain,
-  BaseLayoutSide,
-} from '../components/BaseLayout'
-import Button from '../components/Button'
-import Header from '../components/Header'
-import Panel from '../components/Panel'
-import PostListItem from '../components/PostListItem'
+import {
+  AppLayout,
+  BaseLayout,
+  Button,
+  Panel,
+  PostListItem,
+} from '../components'
+import { BaseLayoutMain, BaseLayoutSide } from '../components/BaseLayout'
 import client from '../core/apollo-client'
 
 const Home: NextPage<{ initialPosts: any[]; nodes: any[] }> = ({
@@ -16,9 +16,7 @@ const Home: NextPage<{ initialPosts: any[]; nodes: any[] }> = ({
   nodes,
 }) => {
   return (
-    <div>
-      <Header></Header>
-
+    <AppLayout>
       <BaseLayout>
         <BaseLayoutMain>
           {initialPosts.map(post => (
@@ -38,7 +36,7 @@ const Home: NextPage<{ initialPosts: any[]; nodes: any[] }> = ({
               ))}
             </ol>
 
-            <Button className="mt-4" round type={'primary'}>
+            <Button className="mt-2" block round type={'primary'}>
               View All
             </Button>
           </Panel>
@@ -54,7 +52,7 @@ const Home: NextPage<{ initialPosts: any[]; nodes: any[] }> = ({
           </Panel>
         </BaseLayoutSide>
       </BaseLayout>
-    </div>
+    </AppLayout>
   )
 }
 
