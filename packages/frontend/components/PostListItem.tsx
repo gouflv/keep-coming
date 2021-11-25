@@ -35,7 +35,7 @@ const PostListItem: FC<{ data: any }> = ({ data }) => {
 
       {/* Body */}
       <div className="mb-4 text-xl">{data.title}</div>
-      <div className="mb-4 text-sm text-gray-800 max-h-25 overflow-hidden">
+      <div className="mb-4 text-sm text-gray-800 line-clamp-6 lg:line-clamp-10">
         {data.content}
       </div>
 
