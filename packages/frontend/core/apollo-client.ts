@@ -1,24 +1,34 @@
-import { ApolloClient, createHttpLink, InMemoryCache } from '@apollo/client'
-import { setContext } from '@apollo/client/link/context'
+import {
+  ApolloClient,
+  ApolloLink,
+  concat,
+  HttpLink,
+  InMemoryCache,
+} from '@apollo/client'
 
-const link = createHttpLink({
+const link = new HttpLink({
   uri: process.env.NEXT_PUBLIC_GRAPHQL_URI,
 })
 
-const authContext = setContext((_, { headers }) => {
-  if (typeof localStorage === 'undefined') {
-    return headers
-  }
+const authMiddleware = new ApolloLink((operation, forward) => {
+  operation.setContext(({ headers = {} }) => {
+    if (typeof window === 'undefined') {
+      return headers
+    }
 
-  const token = localStorage.getItem('token')
-  return {
-    ...headers,
-    authorization: token ? `Bearer ${token}` : '',
-  }
+    const token = localStorage.getItem('token')
+    return {
+      headers: {
+        ...headers,
+        authorization: token ? `Bearer ${token}` : '',
+      },
+    }
+  })
+  return forward(operation)
 })
 
 const client = new ApolloClient({
-  link: authContext.concat(link),
+  link: concat(authMiddleware, link),
   cache: new InMemoryCache(),
 })
 
