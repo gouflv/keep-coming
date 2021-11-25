@@ -1,12 +1,14 @@
 import { gql, useQuery } from '@apollo/client'
 import Link from 'next/link'
 import { FC } from 'react'
+import { genAvatar } from '../utils/format'
 
 const GQL_CURRENT_USER = gql`
   query CurrentUser {
     currentUser {
       id
       name
+      email
     }
   }
 `
@@ -25,7 +27,7 @@ const HeaderUserMenu: FC = () => {
       {error && (
         <>
           <Link href="/login">
-            <a>Log in</a>
+            <a className="hover:underline">Log in</a>
           </Link>
           <Link href="/enter">
             <a className="px-2 py-1 text-white bg-blue-600 rounded">
@@ -38,17 +40,17 @@ const HeaderUserMenu: FC = () => {
       {data?.currentUser && (
         <>
           <Link href={`user/${data.currentUser.id}`}>
-            <a className="flex items-center">
+            <a className="flex items-center hover:underline">
               <img
-                src="//placehold.it/100"
+                src={genAvatar(data.currentUser.email)}
                 alt=""
-                className="inline w-8 h-8 mr-2 rounded-full"
+                className="inline w-7 h-7 mr-1.5 rounded-full"
               />
               {data.currentUser.name}
             </a>
           </Link>
           <Link href="logout">
-            <a>Logout</a>
+            <a className="hover:underline">Logout</a>
           </Link>
         </>
       )}

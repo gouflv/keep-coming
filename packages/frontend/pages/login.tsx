@@ -28,8 +28,8 @@ const LogIn: NextPage = () => {
     handleSubmit,
   } = useForm<LoginInput>({
     defaultValues: {
-      name: 'fox',
-      password: 'secret',
+      name: 'gouflv',
+      password: '123',
     },
   })
 
