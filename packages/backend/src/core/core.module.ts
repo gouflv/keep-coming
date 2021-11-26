@@ -15,6 +15,10 @@ import { ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core'
       autoSchemaFile: join(process.cwd(), 'graphql/schema.gql'),
       playground: false,
       plugins: [ApolloServerPluginLandingPageLocalDefault()],
+      formatError: error => {
+        console.error(error)
+        return error
+      },
     }),
   ],
   providers: [
@@ -23,6 +27,7 @@ import { ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core'
       provide: PrismaService,
       useFactory: () =>
         new PrismaService({
+          log: ['query', 'info', 'warn', 'error'],
           rejectOnNotFound: () => new NotFoundException(),
         }),
     },
