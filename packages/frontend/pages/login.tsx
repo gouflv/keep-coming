@@ -1,17 +1,10 @@
-import { gql, useApolloClient } from '@apollo/client'
+import { useApolloClient } from '@apollo/client'
 import { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import React from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { AppLayout, Button } from '../components'
-
-const GQL_LOGIN = gql`
-  query Login($password: String!, $name: String!) {
-    login(password: $password, name: $name) {
-      access_token
-    }
-  }
-`
+import { GQL_QUERY_LOGIN } from '../graphql/documents/user'
 
 type LoginInput = {
   name: string
@@ -37,7 +30,7 @@ const LogIn: NextPage = () => {
     const {
       data: { login },
     } = await client.query({
-      query: GQL_LOGIN,
+      query: GQL_QUERY_LOGIN,
       variables: data,
     })
     localStorage.setItem('token', login.access_token)
