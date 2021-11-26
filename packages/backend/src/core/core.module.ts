@@ -1,9 +1,10 @@
 import { Global, Module, NotFoundException } from '@nestjs/common'
 import { ConfigModule, ConfigService } from '@nestjs/config'
 import { GraphQLModule } from '@nestjs/graphql'
-import { join } from 'path'
-import { PrismaService } from './prisma.service'
 import { ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core'
+import { join } from 'path'
+import { ENV } from 'src/config'
+import { PrismaService } from './prisma.service'
 
 @Global()
 @Module({
@@ -11,14 +12,22 @@ import { ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core'
     ConfigModule.forRoot({
       envFilePath: ['.env.local', '.env'],
     }),
-    GraphQLModule.forRoot({
-      autoSchemaFile: join(process.cwd(), 'graphql/schema.gql'),
-      playground: false,
-      plugins: [ApolloServerPluginLandingPageLocalDefault()],
-      formatError: error => {
-        console.error(error)
-        return error
-      },
+    GraphQLModule.forRootAsync({
+      inject: [ConfigService],
+      useFactory: (config: ConfigService) => ({
+        autoSchemaFile: join(
+          process.cwd(),
+          config.get<string>('GRAPHQL_SCHEMA_FILE') || 'graphql/schema.gql',
+        ),
+        playground: false,
+        plugins: [
+          ENV === 'development' && ApolloServerPluginLandingPageLocalDefault(),
+        ].filter(plugin => plugin),
+        formatError: error => {
+          console.error(error)
+          return error
+        },
+      }),
     }),
   ],
   providers: [
