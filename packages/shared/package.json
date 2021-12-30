@@ -1,11 +1,14 @@
 {
-  "name": "kc-shared",
+  "name": "@kc/shared",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "typings": "dist/index.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc",
+    "build:watch": "tsc -w"
   },
-  "devDependencies": {
+  "dependencies": {
     "@nestjs/common": "^8.0.0",
     "@nestjs/core": "^8.0.0",
     "@nestjs/graphql": "^9.1.2",
@@ -13,7 +16,9 @@
     "class-validator": "^0.13.1",
     "graphql": "^15.7.2",
     "reflect-metadata": "^0.1.13",
-    "rxjs": "^7.2.0",
+    "rxjs": "^7.2.0"
+  },
+  "devDependencies": {
     "typescript": "^4.3.5"
   }
 }
