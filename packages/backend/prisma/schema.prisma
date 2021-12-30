@@ -7,63 +7,117 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  name      String
-  email     String
-  password  String?
-  create_at DateTime @default(now())
-  update_at DateTime @updatedAt
+  id              String   @id @default(cuid())
+  name            String
+  password        String
+  email           String
+  isEmailValidate Boolean
+  avatar          String
+  createAt        DateTime @default(now())
+}
 
-  @@map("user")
+model UserLikedPosts {
+  userId   String
+  postId   String
+  createAt DateTime @default(now())
+
+  @@id([userId, postId])
+}
+
+model UserSavedPosts {
+  userId   String
+  postId   String
+  createAt DateTime @default(now())
+
+  @@id([userId, postId])
+}
+
+model UserFollowedNodes {
+  userId   String
+  nodeId   String
+  createAt DateTime @default(now())
+
+  @@id([userId, nodeId])
+}
+
+model UserFollowedUsers {
+  userId         String
+  followedUserId String
+  createAt       DateTime @default(now())
+
+  @@id([userId, followedUserId])
 }
 
 model Node {
-  id        Int      @id @default(autoincrement())
-  name      String
-  parentId  Int
-  sort      Int      @default(1)
-  create_at DateTime @default(now())
+  id       String   @id @default(cuid())
+  name     String
+  icon     String
+  sort     Int      @default(0)
+  createAt DateTime @default(now())
+  group    String
+}
 
-  @@map("node")
+model PostCate {
+  id       String   @id @default(cuid())
+  name     String
+  createAt DateTime @default(now())
+  sort     Int      @default(0)
+  //
+  nodeId   String
 }
 
 model Post {
-  id            Int       @id @default(autoincrement())
-  title         String
-  content       String    @db.Text
-  create_at     DateTime  @default(now())
-  last_reply_at DateTime?
-
-  // relations
-  nodeId   Int
-  authorId Int
-
-  @@map("post")
+  id           String    @id @default(uuid())
+  title        String
+  content      String
+  createAt     DateTime  @default(now())
+  updateAt     DateTime?
+  //
+  isCollection Boolean   @default(false)
+  isVideo      Boolean   @default(false)
+  //
+  authorId     String
+  nodeId       String
+  cateId       String
 }
 
-model Reply {
-  id        Int      @id @default(autoincrement())
-  floorNum  Int
-  content   String
-  create_at DateTime @default(now())
-
-  // relations
-  authorId Int
-  postId   Int
-
-  @@map("reply")
+model PostExtend {
+  id            String    @id @default(cuid())
+  postId        String
+  viewCount     Int       @default(1)
+  likeCount     Int       @default(0)
+  saveCount     Int       @default(0)
+  commentCount  Int       @default(0)
+  lastCommentAt DateTime?
+  rate          Int       @default(0)
 }
 
-model Admin {
-  userId    Int
-  nodeId    Int      @default(0)
-  create_at DateTime @default(now())
+model PostCollectionItems {
+  id        String   @id @default(cuid())
+  postId    String
+  refPostId String
+  createAt  DateTime @default(now())
+  sort      Int      @default(0)
+}
 
-  @@id([userId, nodeId])
-  @@map("admin")
+model Comment {
+  id       String   @id @default(cuid())
+  parentId String?
+  content  String
+  createAt DateTime @default(now())
+  //
+  authorId String
+  postId   String
+}
+
+model NodeManager {
+  id        String   @id @default(cuid())
+  userId    String
+  nodeId    String
+  create_at DateTime @default(now())
 }
