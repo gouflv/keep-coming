@@ -4,7 +4,7 @@ import { Comment } from './comment'
 
 @ObjectType()
 export class User {
-  @Field(_type => ID)
+  @Field(type => ID)
   id: string
 
   @Field()
@@ -22,21 +22,21 @@ export class User {
   @Field()
   createAt: Date
 
-  @Field(_type => [Post], {
-    description: "A list of user's posts",
+  @Field(type => [Post], {
+    description: "A list of user's posts"
   })
   posts: Post[]
 
-  @Field(_type => [Comment])
+  @Field(type => [Comment])
   comments: Comment[]
 
-  @Field(_type => [Post], {
-    description: "A list of user's posts",
+  @Field(type => [Post], {
+    description: "A list of user's posts"
   })
   likedPosts: Post[]
 
-  @Field(_type => [Post], {
-    description: "A list of user's posts",
+  @Field(type => [Post], {
+    description: "A list of user's posts"
   })
   savedPosts: Post[]
 }

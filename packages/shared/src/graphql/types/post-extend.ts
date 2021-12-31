@@ -3,7 +3,7 @@ import { Field, ObjectType } from '@nestjs/graphql'
 @ObjectType()
 export class PostExtend {
   @Field()
-  visitCount: number
+  viewCount: number
 
   @Field()
   likeCount: number
@@ -12,10 +12,10 @@ export class PostExtend {
   saveCount: number
 
   @Field()
-  replyCount: number
+  commentCount: number
 
   @Field({ nullable: true })
-  lastReplyAt?: Date
+  lastCommentAt?: Date
 
   @Field()
   rate: number

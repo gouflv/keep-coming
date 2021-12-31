@@ -4,19 +4,19 @@ import { User } from './user'
 
 @ObjectType()
 export class Comment {
-  @Field(_type => ID)
+  @Field(type => ID)
   id: string
 
   @Field()
   postId: string
 
-  @Field(_type => Post)
+  @Field(type => Post)
   post: Post
 
   @Field()
   authorId: string
 
-  @Field(_type => User)
+  @Field(type => User)
   author: User
 
   @Field()
@@ -25,9 +25,9 @@ export class Comment {
   @Field()
   createAt: Date
 
-  @Field(_type => Comment)
+  @Field(type => Comment)
   parent?: Comment
 
-  @Field(_type => [Comment])
+  @Field(type => [Comment])
   children: Comment[]
 }

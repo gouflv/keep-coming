@@ -1,9 +1,18 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql'
 import { PostCate } from './post-cate'
+import { registerEnumType } from '@nestjs/graphql/dist/extra/graphql-model-shim'
+
+export enum NodeGroup {
+  DEFAULT = 'DEFAULT',
+  GAME = 'GAME'
+}
+registerEnumType(NodeGroup, {
+  name: 'NodeGroup'
+})
 
 @ObjectType()
 export class Node {
-  @Field(_type => ID)
+  @Field(type => ID)
   id: string
 
   @Field()
@@ -12,15 +21,15 @@ export class Node {
   @Field({ nullable: true })
   icon?: string
 
-  @Field(_type => [PostCate])
-  cate: PostCate[]
+  @Field()
+  sort: number
 
   @Field()
-  parentId: string
+  createAt: Date
 
-  @Field({ nullable: true })
-  parent?: Node
+  @Field(type => NodeGroup)
+  group: NodeGroup
 
-  @Field(_type => [Node])
-  children: Node[]
+  @Field(type => [PostCate])
+  postCateList: PostCate[]
 }

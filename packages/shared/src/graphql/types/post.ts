@@ -10,10 +10,10 @@ import { PostExtend } from './post-extend'
   resolveType: value => {
     if ('collection' in value) return PostCollection
     return PostNormal
-  },
+  }
 })
 export abstract class Post {
-  @Field(_type => ID)
+  @Field(type => ID)
   id: string
 
   @Field()
@@ -31,28 +31,28 @@ export abstract class Post {
   @Field()
   authorId: number
 
-  @Field(_type => User)
+  @Field(type => User)
   author: User
 
   @Field()
   nodeId: number
 
-  @Field(_type => Node)
+  @Field(type => Node)
   node: Node
 
-  @Field(_type => [Node])
+  @Field(type => [Node])
   nodePath: Node[]
 
   @Field()
   cateId: string
 
-  @Field(_type => PostCate)
+  @Field(type => PostCate)
   cate: PostCate
 
-  @Field(_type => [Comment])
+  @Field(type => [Comment])
   comments: Comment[]
 
-  @Field(_type => PostExtend)
+  @Field(type => PostExtend)
   extend: PostExtend
 }
 
@@ -61,7 +61,7 @@ export class PostNormal extends Post {}
 
 @ObjectType()
 class PostCollectionItem {
-  @Field(_type => PostNormal)
+  @Field(type => PostNormal)
   item: PostNormal
 
   @Field()
@@ -70,13 +70,13 @@ class PostCollectionItem {
 
 @ObjectType({ implements: Post })
 export class PostCollection extends Post {
-  @Field(_type => [PostCollectionItem])
+  @Field(type => [PostCollectionItem])
   collection: PostCollectionItem[]
 }
 
 @ObjectType()
 export class PostPaginatedResponse implements PaginatedResponseInterface<Post> {
-  @Field(_type => [Post])
+  @Field(type => [Post])
   items: Post[]
 
   @Field()
