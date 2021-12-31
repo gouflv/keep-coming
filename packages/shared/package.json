@@ -5,6 +5,7 @@
   "module": "dist/index.js",
   "typings": "dist/index.d.ts",
   "scripts": {
+    "prebuild": "rimraf dist",
     "build": "tsc",
     "build:watch": "tsc -w"
   },
@@ -19,6 +20,7 @@
     "rxjs": "^7.2.0"
   },
   "devDependencies": {
+    "rimraf": "^3.0.2",
     "typescript": "^4.3.5"
   }
 }

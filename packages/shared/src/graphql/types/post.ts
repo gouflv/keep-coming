@@ -29,13 +29,13 @@ export abstract class Post {
   updateAt: Date
 
   @Field()
-  authorId: number
+  authorId: string
 
   @Field(type => User)
   author: User
 
   @Field()
-  nodeId: number
+  nodeId: string
 
   @Field(type => Node)
   node: Node

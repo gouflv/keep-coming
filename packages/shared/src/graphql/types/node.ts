@@ -1,6 +1,5 @@
-import { Field, ID, ObjectType } from '@nestjs/graphql'
+import { Field, ID, ObjectType, registerEnumType } from '@nestjs/graphql'
 import { PostCate } from './post-cate'
-import { registerEnumType } from '@nestjs/graphql/dist/extra/graphql-model-shim'
 
 export enum NodeGroup {
   DEFAULT = 'DEFAULT',

@@ -31,12 +31,18 @@ export class User {
   comments: Comment[]
 
   @Field(type => [Post], {
-    description: "A list of user's posts"
+    description: "A list of user's liked posts"
   })
   likedPosts: Post[]
 
   @Field(type => [Post], {
-    description: "A list of user's posts"
+    description: "A list of user's saved posts"
   })
   savedPosts: Post[]
+
+  @Field()
+  isSilent: boolean
+
+  @Field()
+  silentUntil?: Date
 }
