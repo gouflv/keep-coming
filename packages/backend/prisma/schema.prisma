@@ -12,13 +12,16 @@ datasource db {
 }
 
 model User {
-  id              String   @id @default(cuid())
+  id              String    @id @default(cuid())
   name            String
   password        String
   email           String
-  isEmailValidate Boolean
-  avatar          String
-  createAt        DateTime @default(now())
+  avatar          String?
+  createAt        DateTime  @default(now())
+  //
+  isEmailValidate Boolean   @default(false)
+  isSilent        Boolean   @default(false)
+  silentUntil     DateTime?
 }
 
 model UserLikedPosts {
@@ -72,18 +75,15 @@ model PostCate {
 }
 
 model Post {
-  id           String    @id @default(uuid())
-  title        String
-  content      String
-  createAt     DateTime  @default(now())
-  updateAt     DateTime?
+  id       String    @id @default(uuid())
+  title    String
+  content  String
+  createAt DateTime  @default(now())
+  updateAt DateTime?
   //
-  isCollection Boolean   @default(false)
-  isVideo      Boolean   @default(false)
-  //
-  authorId     String
-  nodeId       String
-  cateId       String
+  authorId String
+  nodeId   String
+  cateId   String
 }
 
 model PostExtend {
@@ -94,7 +94,11 @@ model PostExtend {
   saveCount     Int       @default(0)
   commentCount  Int       @default(0)
   lastCommentAt DateTime?
+  //
   rate          Int       @default(0)
+  //
+  isCollection  Boolean   @default(false)
+  isVideo       Boolean   @default(false)
 }
 
 model PostCollectionItems {

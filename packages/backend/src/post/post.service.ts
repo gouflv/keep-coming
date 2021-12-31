@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common'
 import { Post, Prisma } from '@prisma/client'
 import { PrismaService } from '../core/prisma.service'
-import { PostFilter, PostOrderField, PostsArgs } from './types/post.args'
+import { PostOrderType, PostPaginatedArgs } from './args/paginated.args'
+import { PostFindManyFilter } from './args/find-many-filter.args'
 
 @Injectable()
 export class PostService {
@@ -11,30 +12,32 @@ export class PostService {
     return this.prisma.post.findUnique({ where })
   }
 
+  findManyWhereInputBuilder({ authorId, nodeId }: PostFindManyFilter) {
+    const res: Prisma.PostWhereInput = {}
+    if (authorId) {
+      res['authorId'] = { equals: authorId }
+    }
+    if (nodeId) {
+      res['nodeId'] = { equals: nodeId }
+    }
+    return res
+  }
+
   async findMany(
-    { authorId, nodeId }: PostFilter,
-    { order, skip, take }: PostsArgs,
+    filter: PostFindManyFilter,
+    { order, cursor, take }: PostPaginatedArgs
   ): Promise<Post[]> {
-    const where = (() => {
-      const res: Prisma.PostWhereInput = {}
-      if (authorId) {
-        res['authorId'] = { equals: authorId }
-      }
-      if (nodeId) {
-        res['nodeId'] = { equals: nodeId }
-      }
-      return res
-    })()
+    const where = this.findManyWhereInputBuilder(filter)
 
     const orderBy = (() => {
-      const res: Prisma.PostOrderByWithRelationInput[] = [
+      const res: Record<string, any> = [
         {
-          [order.field]: order.direction,
-        },
+          [order.type]: order.direction
+        }
       ]
-      if (order.field === PostOrderField.LAST_REPLY_AT) {
+      if (order.type === PostOrderType.LAST_COMMENT_AT) {
         res.push({
-          create_at: order.direction,
+          createAt: order.direction
         })
       }
       return res
@@ -43,12 +46,13 @@ export class PostService {
     return this.prisma.post.findMany({
       where,
       orderBy,
-      skip,
-      take,
+      cursor: { id: cursor },
+      take
     })
   }
 
-  async count(where: Prisma.PostWhereInput): Promise<number> {
+  async count(filter: PostFindManyFilter): Promise<number> {
+    const where = this.findManyWhereInputBuilder(filter)
     return this.prisma.post.count({ where })
   }
 

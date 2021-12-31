@@ -1,7 +1,6 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import * as argon from 'argon2'
-import { User } from '../user'
 import { UserService } from '../user/user.service'
 import { JwtPayload } from './types/jwt-payload'
 import { LoginResponse } from './types/login.response'
@@ -13,7 +12,7 @@ export class AuthService {
   /**
    * Return the user if found matched, or throw an exception.
    */
-  async validateLocalUser(name: string, password: string): Promise<User> {
+  async validateLocalUser(name: string, password: string) {
     const user = await this.userService.findFirst({ name })
 
     if (!user) {
@@ -33,13 +32,11 @@ export class AuthService {
 
       const payload: JwtPayload = {
         sub: user.id,
-        name: user.name,
-        admin: false,
+        name: user.name
       }
 
       return {
-        user,
-        access_token: this.jtw.sign(payload),
+        access_token: this.jtw.sign(payload)
       }
     } catch (e) {
       throw e

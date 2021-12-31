@@ -5,38 +5,38 @@ import {
   Parent,
   Query,
   ResolveField,
-  Resolver,
+  Resolver
 } from '@nestjs/graphql'
-import { Post, PostsArgs } from '../post'
+import { PostPaginatedArgs } from '../post'
 import { PostService } from '../post/post.service'
-import { AddUserInput } from './types/user.input'
-import { User } from './types/user.model'
+import { UserCreateInput } from './inputs/UserCreateInput'
 import { UserService } from './user.service'
+import { Post, User } from '@kc/shared'
 
 @Resolver(of => User)
 export class UserResolver {
   constructor(
     private userService: UserService,
-    private postService: PostService,
+    private postService: PostService
   ) {}
 
   @Query(returns => User, { description: 'Look up a user' })
-  async user(@Args('id', ParseIntPipe) id: number) {
+  async user(@Args('id') id: string) {
     return this.userService.findOne({ id })
   }
 
   @ResolveField(type => [Post])
-  async posts(@Parent() user: User, @Args() args: PostsArgs) {
+  async posts(@Parent() user: User, @Args() args: PostPaginatedArgs) {
     return this.postService.findMany(
       {
-        authorId: user.id,
+        authorId: user.id
       },
-      args,
+      args
     )
   }
 
   @Mutation(returns => User)
-  async register(@Args('addUserInput') input: AddUserInput) {
+  async register(@Args('data') input: UserCreateInput) {
     return this.userService.create(input)
   }
 }

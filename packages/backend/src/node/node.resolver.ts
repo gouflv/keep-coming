@@ -1,28 +1,18 @@
-import { ParseIntPipe } from '@nestjs/common'
-import { Args, Parent, Query, ResolveField, Resolver } from '@nestjs/graphql'
-import { Node } from './types/node.model'
+import { Args, Query, Resolver } from '@nestjs/graphql'
+import { Node } from '@kc/shared'
 import { NodeService } from './node.service'
 
 @Resolver(of => Node)
 export class NodeResolver {
   constructor(private nodeService: NodeService) {}
 
-  @Query(returns => Node, { description: 'Look up a node' })
-  async node(@Args('id', ParseIntPipe) id: number) {
+  @Query(returns => Node, { nullable: true, description: 'Look up a node' })
+  async node(@Args('id') id: string) {
     return this.nodeService.findOne({ id })
   }
 
   @Query(returns => [Node], { description: 'A list of nodes' })
   async nodes() {
-    return this.nodeService.findMany({
-      parentId: { equals: 0 },
-    })
-  }
-
-  @ResolveField()
-  async children(@Parent() parent: Node) {
-    return this.nodeService.findMany({
-      parentId: { equals: parent.id },
-    })
+    return this.nodeService.findMany({})
   }
 }

@@ -1,5 +1,4 @@
 export type JwtPayload = {
-  sub: number
+  sub: string
   name: string
-  admin: boolean
 }

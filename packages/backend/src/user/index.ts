@@ -1,2 +1,1 @@
-export * from './types/user.model'
-export * from './types/user.input'
+export * from './inputs/UserCreateInput'

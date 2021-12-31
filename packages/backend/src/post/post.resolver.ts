@@ -5,34 +5,38 @@ import {
   Parent,
   Query,
   ResolveField,
-  Resolver,
+  Resolver
 } from '@nestjs/graphql'
 import { GqlAuthGuard, GqlAuthPayload, JwtPayload } from '../auth'
 import { UserService } from '../user/user.service'
 import { NodeService } from '../node/node.service'
 import { PostService } from './post.service'
-import { PostFilter, PostsArgs } from './types/post.args'
-import { AddPostInput } from './types/post.input'
-import { Post, PostPaginatedResponse } from './types/post.model'
+import { PostPaginatedArgs } from './args/paginated.args'
+import { Post, PostPaginatedResponse } from '@kc/shared'
+import { PostFindManyFilter } from './args/find-many-filter.args'
+import { CreatePostInput } from './inputs/create.input'
 
 @Resolver(of => Post)
 export class PostResolver {
   constructor(
     private postService: PostService,
     private nodeService: NodeService,
-    private userService: UserService,
+    private userService: UserService
   ) {}
 
   @Query(returns => Post, { description: 'Look up a post' })
-  async post(@Args('id', ParseIntPipe) id: number) {
+  async post(@Args('id') id: string) {
     return this.postService.findOne({ id })
   }
 
   @Query(returns => PostPaginatedResponse, { description: 'A list of posts' })
-  async posts(@Args() filter: PostFilter, @Args() args: PostsArgs) {
+  async posts(
+    @Args() filter: PostFindManyFilter,
+    @Args() args: PostPaginatedArgs
+  ) {
     return {
       items: await this.postService.findMany(filter, args),
-      total: await this.postService.count({}),
+      total: await this.postService.count(filter)
     }
   }
 
@@ -46,23 +50,15 @@ export class PostResolver {
     return this.nodeService.findOne({ id: post.nodeId })
   }
 
-  @ResolveField()
-  async nodePath(@Parent() post: Post) {
-    const node = await this.nodeService.findOne({
-      id: post.nodeId,
-    })
-    return this.nodeService.getPathOf(node)
-  }
-
-  @Mutation(returns => Post)
+  @Mutation(returns => Post, { name: 'createPost' })
   @UseGuards(GqlAuthGuard)
   create(
     @GqlAuthPayload() payload: JwtPayload,
-    @Args('addPostInput') input: AddPostInput,
+    @Args('data') input: CreatePostInput
   ) {
     return this.postService.create({
       ...input,
-      authorId: payload.sub,
+      authorId: payload.sub
     })
   }
 }

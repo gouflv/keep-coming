@@ -7,27 +7,26 @@ import { PrismaService } from '../core/prisma.service'
 export class UserService {
   constructor(private prisma: PrismaService) {}
 
-  async findOne(where: Prisma.UserWhereUniqueInput): Promise<User | null> {
+  async findOne(where: Prisma.UserWhereUniqueInput) {
     return this.prisma.user.findUnique({ where })
   }
 
-  async findFirst(where: Prisma.UserWhereInput): Promise<User | null> {
+  async findFirst(where: Prisma.UserWhereInput) {
     return this.prisma.user.findFirst({
-      where,
-      rejectOnNotFound: false,
+      where
     })
   }
 
-  async create(input: Prisma.UserCreateInput): Promise<User> {
+  async create(input: Prisma.UserCreateInput) {
     const hasSameName = !!(await this.findFirst({
-      name: { equals: input.name },
+      name: { equals: input.name }
     }))
     if (hasSameName) {
       throw new HttpException(`Username ${input.name} is duplicated`, 400)
     }
 
     const hasSameEmail = !!(await this.findFirst({
-      email: { equals: input.email },
+      email: { equals: input.email }
     }))
     if (hasSameEmail) {
       throw new HttpException(`Email ${input.email} is duplicated`, 400)
@@ -40,7 +39,7 @@ export class UserService {
 
   async update(params: {
     where: Prisma.UserWhereUniqueInput
-    data: Prisma.UserUncheckedUpdateInput
+    data: Prisma.UserUpdateInput
   }): Promise<User> {
     return this.prisma.user.update(params)
   }

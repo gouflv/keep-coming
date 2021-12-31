@@ -13,25 +13,7 @@ export class NodeService {
   async findMany(where?: Prisma.NodeWhereInput) {
     return this.prisma.node.findMany({
       where,
-      orderBy: { sort: 'asc' },
+      orderBy: { sort: 'asc', createAt: 'asc' }
     })
-  }
-
-  async getPathOf(node: Node) {
-    const path: Node[] = []
-
-    const walker = async (curr: Node) => {
-      const parent = await this.prisma.node.findUnique({
-        where: { id: curr.parentId },
-        rejectOnNotFound: false,
-      })
-      if (!parent) return
-      path.push(parent)
-      walker(parent)
-    }
-
-    await walker(node)
-
-    return [...path, node]
   }
 }

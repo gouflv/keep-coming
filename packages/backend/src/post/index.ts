@@ -1,2 +1,3 @@
-export * from './types/post.args'
-export * from './types/post.model'
+export * from './args/paginated.args'
+export * from './args/paginated.args'
+export * from './inputs/create.input'
