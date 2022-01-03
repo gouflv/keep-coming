@@ -8,15 +8,12 @@ interface Post {
   content: String!
   createAt: DateTime!
   updateAt: DateTime!
-  authorId: String!
   author: User!
-  nodeId: String!
   node: Node!
   nodePath: [Node!]!
-  cateId: String!
-  cate: PostCate!
+  category: PostCategory!
   comments: [Comment!]!
-  extend: PostExtend!
+  extendInfo: PostExtendInfo!
 }
 
 """
@@ -24,7 +21,7 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
-type PostCate {
+type PostCategory {
   id: ID!
   name: String!
   sort: Float!
@@ -37,7 +34,7 @@ type Node {
   sort: Float!
   createAt: DateTime!
   group: NodeGroup!
-  postCateList: [PostCate!]!
+  postCategories: [PostCategory!]!
 }
 
 enum NodeGroup {
@@ -57,7 +54,7 @@ type Comment {
   children: [Comment!]!
 }
 
-type PostExtend {
+type PostExtendInfo {
   viewCount: Float!
   likeCount: Float!
   saveCount: Float!
@@ -72,15 +69,12 @@ type PostNormal implements Post {
   content: String!
   createAt: DateTime!
   updateAt: DateTime!
-  authorId: String!
   author: User!
-  nodeId: String!
   node: Node!
   nodePath: [Node!]!
-  cateId: String!
-  cate: PostCate!
+  category: PostCategory!
   comments: [Comment!]!
-  extend: PostExtend!
+  extendInfo: PostExtendInfo!
 }
 
 type PostCollectionItem {
@@ -94,15 +88,12 @@ type PostCollection implements Post {
   content: String!
   createAt: DateTime!
   updateAt: DateTime!
-  authorId: String!
   author: User!
-  nodeId: String!
   node: Node!
   nodePath: [Node!]!
-  cateId: String!
-  cate: PostCate!
+  category: PostCategory!
   comments: [Comment!]!
-  extend: PostExtend!
+  extendInfo: PostExtendInfo!
   collection: [PostCollectionItem!]!
 }
 
@@ -120,7 +111,7 @@ type User {
   createAt: DateTime!
 
   """A list of user's posts"""
-  posts(cursor: String, take: Int = 50, order: PostOrder = {type: CREATE_AT, direction: DESC}): [Post!]!
+  posts(skip: Int = 0, take: Int = 50): [Post!]!
   comments: [Comment!]!
 
   """A list of user's liked posts"""
@@ -130,22 +121,6 @@ type User {
   savedPosts: [Post!]!
   isSilent: Boolean!
   silentUntil: DateTime!
-}
-
-input PostOrder {
-  type: PostOrderField!
-  direction: OrderDirection
-}
-
-enum PostOrderField {
-  CREATE_AT
-  LAST_COMMENT_AT
-}
-
-"""A list orderBy direction argument"""
-enum OrderDirection {
-  ASC
-  DESC
 }
 
 type LoginResponse {
@@ -160,7 +135,7 @@ type Query {
   post(id: String!): Post!
 
   """A list of posts"""
-  posts(cursor: String, take: Int = 50, order: PostOrder = {type: CREATE_AT, direction: DESC}, authorId: String, nodeId: String): PostPaginatedResponse!
+  posts(skip: Int = 0, take: Int = 50, order: PostOrderInput = {type: RATE, direction: DESC}, authorId: String, nodeId: String, categoryId: String): PostPaginatedResponse!
 
   """Look up a node"""
   node(id: String!): Node
@@ -171,6 +146,25 @@ type Query {
 
   """Look up a user that has logged in"""
   currentUser: User!
+}
+
+input PostOrderInput {
+  type: PostOrderField!
+  direction: OrderDirection
+}
+
+enum PostOrderField {
+  """Order by post's last active time"""
+  RECENT
+
+  """Order by post's rate"""
+  RATE
+}
+
+"""A list orderBy direction argument"""
+enum OrderDirection {
+  ASC
+  DESC
 }
 
 type Mutation {
@@ -189,5 +183,5 @@ input CreatePostInput {
   title: String!
   content: String!
   nodeId: String!
-  cateId: String!
+  categoryId: String!
 }

@@ -13,9 +13,9 @@ datasource db {
 
 model User {
   id              String    @id @default(cuid())
-  name            String
+  name            String    @unique
   password        String
-  email           String
+  email           String    @unique
   avatar          String?
   createAt        DateTime  @default(now())
   //
@@ -65,7 +65,7 @@ model Node {
   group    String
 }
 
-model PostCate {
+model PostCategory {
   id       String   @id @default(cuid())
   name     String
   createAt DateTime @default(now())
@@ -83,10 +83,10 @@ model Post {
   //
   authorId String
   nodeId   String
-  cateId   String
+  categoryId   String
 }
 
-model PostExtend {
+model PostExtendInfo {
   id            String    @id @default(cuid())
   postId        String
   viewCount     Int       @default(1)
@@ -123,5 +123,5 @@ model NodeManager {
   id        String   @id @default(cuid())
   userId    String
   nodeId    String
-  create_at DateTime @default(now())
+  createAt DateTime @default(now())
 }
