@@ -7,11 +7,11 @@ import {
   ResolveField,
   Resolver
 } from '@nestjs/graphql'
-import { PostPaginatedArgs } from '../post'
 import { PostService } from '../post/post.service'
 import { UserCreateInput } from './inputs/UserCreateInput'
 import { UserService } from './user.service'
 import { Post, User } from '@kc/shared'
+import { PaginatedArgs } from '../utils/graphql'
 
 @Resolver(of => User)
 export class UserResolver {
@@ -26,13 +26,10 @@ export class UserResolver {
   }
 
   @ResolveField(type => [Post])
-  async posts(@Parent() user: User, @Args() args: PostPaginatedArgs) {
-    return this.postService.findMany(
-      {
-        authorId: user.id
-      },
-      args
-    )
+  async posts(@Parent() user: User, @Args() args: PaginatedArgs) {
+    return this.postService.findMany({
+      filter: { authorId: user.id }
+    })
   }
 
   @Mutation(returns => User)

@@ -1,4 +1,4 @@
-import { ParseIntPipe, UseGuards } from '@nestjs/common'
+import { UseGuards } from '@nestjs/common'
 import {
   Args,
   Mutation,
@@ -7,14 +7,15 @@ import {
   ResolveField,
   Resolver
 } from '@nestjs/graphql'
-import { GqlAuthGuard, GqlAuthPayload, JwtPayload } from '../auth'
-import { UserService } from '../user/user.service'
-import { NodeService } from '../node/node.service'
-import { PostService } from './post.service'
-import { PostPaginatedArgs } from './args/paginated.args'
+import { GqlAuthGuard, GqlAuthPayload, JwtPayload } from '../../auth'
+import { UserService } from '../../user/user.service'
+import { NodeService } from '../../node/node.service'
+import { PostService } from '../post.service'
 import { Post, PostPaginatedResponse } from '@kc/shared'
-import { PostFindManyFilter } from './args/find-many-filter.args'
-import { CreatePostInput } from './inputs/create.input'
+import { CreatePostInput } from '../inputs/create.input'
+import { PostFilterArgs } from '../args/filter.args'
+import { PostOrderArgs } from '../args/order.args'
+import { PaginatedArgs } from '../../utils/graphql'
 
 @Resolver(of => Post)
 export class PostResolver {
@@ -31,11 +32,16 @@ export class PostResolver {
 
   @Query(returns => PostPaginatedResponse, { description: 'A list of posts' })
   async posts(
-    @Args() filter: PostFindManyFilter,
-    @Args() args: PostPaginatedArgs
+    @Args() filter: PostFilterArgs,
+    @Args() order: PostOrderArgs,
+    @Args() paginated: PaginatedArgs
   ) {
     return {
-      items: await this.postService.findMany(filter, args),
+      items: await this.postService.findMany({
+        filter,
+        order: order.order,
+        paginated
+      }),
       total: await this.postService.count(filter)
     }
   }

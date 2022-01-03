@@ -13,5 +13,5 @@ export class CreatePostInput implements Partial<Post> {
   nodeId: string
 
   @Field()
-  cateId: string
+  categoryId: string
 }

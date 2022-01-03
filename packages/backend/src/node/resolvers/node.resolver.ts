@@ -1,6 +1,6 @@
 import { Args, Query, Resolver } from '@nestjs/graphql'
 import { Node } from '@kc/shared'
-import { NodeService } from './node.service'
+import { NodeService } from '../node.service'
 
 @Resolver(of => Node)
 export class NodeResolver {
