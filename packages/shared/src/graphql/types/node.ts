@@ -1,5 +1,5 @@
 import { Field, ID, ObjectType, registerEnumType } from '@nestjs/graphql'
-import { PostCate } from './post-cate'
+import { PostCategory } from './post-category'
 
 export enum NodeGroup {
   DEFAULT = 'DEFAULT',
@@ -29,6 +29,6 @@ export class Node {
   @Field(type => NodeGroup)
   group: NodeGroup
 
-  @Field(type => [PostCate])
-  postCateList: PostCate[]
+  @Field(type => [PostCategory])
+  postCategories: PostCategory[]
 }

@@ -2,9 +2,9 @@ import { Field, ID, InterfaceType, ObjectType } from '@nestjs/graphql'
 import { PaginatedResponseInterface } from '../interfaces/paginated'
 import { User } from './user'
 import { Node } from './node'
-import { PostCate } from './post-cate'
+import { PostCategory } from './post-category'
 import { Comment } from './comment'
-import { PostExtend } from './post-extend'
+import { PostExtendInfo } from './post-extend-info'
 
 @InterfaceType({
   resolveType: value => {
@@ -28,32 +28,26 @@ export abstract class Post {
   @Field()
   updateAt: Date
 
-  @Field()
   authorId: string
 
   @Field(type => User)
   author: User
 
-  @Field()
   nodeId: string
 
   @Field(type => Node)
   node: Node
 
-  @Field(type => [Node])
-  nodePath: Node[]
+  categoryId: string
 
-  @Field()
-  cateId: string
-
-  @Field(type => PostCate)
-  cate: PostCate
+  @Field(type => PostCategory)
+  category: PostCategory
 
   @Field(type => [Comment])
   comments: Comment[]
 
-  @Field(type => PostExtend)
-  extend: PostExtend
+  @Field(type => PostExtendInfo)
+  extendInfo: PostExtendInfo
 }
 
 @ObjectType({ implements: Post })

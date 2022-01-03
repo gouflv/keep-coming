@@ -1,7 +1,7 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql'
 
 @ObjectType()
-export class PostCate {
+export class PostCategory {
   @Field(type => ID)
   id: string
 
